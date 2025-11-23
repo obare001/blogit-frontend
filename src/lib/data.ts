@@ -1,0 +1,47 @@
+export const blogs = [
+  {
+    id: 1,
+    title: "Understanding React Hooks in 2025",
+    description: "A beginner-friendly guide on how to use useState and useEffect properly.",
+    category: "Technology",
+    image: "/images/react-hooks.jpg",
+    author: "Babra Obare",
+    date: "2025-11-23",
+  },
+  {
+    id: 2,
+    title: "10 Self-Care Habits for a Balanced Life",
+    description: "Simple routines you can add to your daily life to improve your mental health.",
+    category: "Lifestyle",
+    image: "/images/self-care.jpg",
+    author: "Jayson Duff",
+    date: "2025-11-20",
+  },
+  {
+    id: 3,
+    title: "The Future of AI in Africa",
+    description: "How AI is transforming education, healthcare, and business across Africa.",
+    category: "Technology",
+    image: "/images/ai-africa.jpg",
+    author: "Teach2Give",
+    date: "2025-11-18",
+  },
+  {
+    id: 4,
+    title: "Healthy Eating on a Budget",
+    description: "Quick meals you can cook with affordable ingredients available anywhere.",
+    category: "Food",
+    image: "/images/healthy-food.jpg",
+    author: "Jane Doe",
+    date: "2025-11-15",
+  },
+  {
+    id: 5,
+    title: "How to Stay Consistent in Coding",
+    description: "Tips that helped me build discipline while learning HTML, CSS, and JavaScript.",
+    category: "Career",
+    image: "/images/coding-consistency.jpg",
+    author: "Babra Obare",
+    date: "2025-11-10",
+  }
+];
