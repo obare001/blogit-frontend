@@ -1,4 +1,8 @@
-import { Button } from "../../components/ui/button"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "../../components/ui/button";
+import { api } from "../../axios";
+import { toast } from "sonner";
 import {
   Dialog,
   DialogClose,
@@ -8,20 +12,76 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../components/ui/dialog"
-import { Label } from "../ui/label"
-import { Input } from "../ui/input"
+} from "../../components/ui/dialog";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { useMutation } from "@tanstack/react-query";
 
+type UserRegistrationData = {
+  firstName: string;
+  lastName: string;
+  username: string;
+  emailAddress: string;
+  password: string;
+};
 
-export function Register() {
+const registerUser = async (data: UserRegistrationData) => {
+  const response = await api.post("/auth/register", data);
+  return response.data;
+};
+
+function Register() {
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const [formData, setFormData] = useState<UserRegistrationData>({
+    firstName: "",
+    lastName: "",
+    username: "",
+    emailAddress: "",
+    password: "",
+  });
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: registerUser,
+    onSuccess: () => {
+      toast.success("Registration successful! Please log in.");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        username: "",
+        emailAddress: "",
+        password: "",
+      });
+      setIsOpen(false);
+      navigate("/login"); 
+    },
+    onError: (error: any) => {
+      toast.error(
+        error?.response?.data?.message || "Registration failed. Please try again."
+      );
+    },
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    mutate(formData);
+  };
+
   return (
-   <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <Button variant="outline">Register</Button>
-        </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      
+      <DialogTrigger asChild>
+        <Button variant="outline">Register</Button>
+      </DialogTrigger>
 
-        <DialogContent className="sm:max-w-[550px]">
+     
+      <DialogContent className="sm:max-w-[550px]">
+        <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>Create Your Account</DialogTitle>
             <DialogDescription>
@@ -37,6 +97,8 @@ export function Register() {
                   id="firstName"
                   name="firstName"
                   placeholder="Enter first name"
+                  value={formData.firstName}
+                  onChange={handleChange}
                 />
               </div>
 
@@ -46,6 +108,8 @@ export function Register() {
                   id="lastName"
                   name="lastName"
                   placeholder="Enter last name"
+                  value={formData.lastName}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -56,16 +120,20 @@ export function Register() {
                 id="username"
                 name="username"
                 placeholder="Choose a username"
+                value={formData.username}
+                onChange={handleChange}
               />
             </div>
 
             <div className="grid gap-2">
-              <Label htmlFor="email">Email Address</Label>
+              <Label htmlFor="emailAddress">Email Address</Label>
               <Input
-                id="email"
+                id="emailAddress"
+                name="emailAddress"
                 type="email"
-                name="email"
                 placeholder="example@gmail.com"
+                value={formData.emailAddress}
+                onChange={handleChange}
               />
             </div>
 
@@ -73,24 +141,32 @@ export function Register() {
               <Label htmlFor="password">Password</Label>
               <Input
                 id="password"
-                type="password"
                 name="password"
+                type="password"
                 placeholder="Enter password"
+                value={formData.password}
+                onChange={handleChange}
               />
             </div>
           </div>
-          
+
           <DialogFooter>
             <DialogClose asChild>
               <Button variant="outline">Cancel</Button>
             </DialogClose>
 
-            <Button type="submit" className="bg-blue-600 text-white">
-              Create Account
+            <Button
+              type="submit"
+              className="bg-blue-600 text-white"
+              disabled={isPending}
+            >
+              {isPending ? "Creating..." : "Create Account"}
             </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
-  )
+  );
 }
+
+export default Register;

@@ -1,7 +1,7 @@
 
 import Search from './Search'
-import { Register } from '../Auth/Register'
-import { Login } from '../Auth/Login'
+import  Register  from '../Auth/Register'
+import  Login  from '../Auth/Login'
 import { ProfileDrawer } from '../Auth/Profile'
 
 const Navbar = () => {
