@@ -78,8 +78,6 @@ function Register() {
       <DialogTrigger asChild>
         <Button variant="outline">Register</Button>
       </DialogTrigger>
-
-     
       <DialogContent className="sm:max-w-[550px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
@@ -88,7 +86,6 @@ function Register() {
               Fill in your information to register.
             </DialogDescription>
           </DialogHeader>
-
           <div className="grid gap-6 py-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="grid gap-2">

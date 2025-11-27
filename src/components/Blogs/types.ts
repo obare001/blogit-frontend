@@ -1,9 +1,12 @@
 export interface BlogProps {
-    id: number,
-    title: string,
-    description: string,
-    category: string,
-    image: string,
-    author: string,
-    date: string,
+    id: string;
+    title: string;
+    synopsis: string;
+    content: string;    
+    featuredImageUrl: string;
+    createdAt: string;
+    author: {
+        firstName: string;
+        lastName: string;
+    }
 }
